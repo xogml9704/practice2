@@ -11,9 +11,9 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import tensorflow as tf
 from tqdm import tqdm
 
-image_datas = glob('D:\\code\\data\\garbage/*/*/*.jpg')
-class_name = ["can", "glass", "paper", "pet", "plastic", "styrofoam", "vinyl"]
-dic = {"can":0, "glass":1, "paper":2, "pet":3, "plastic":4, "styrofoam":5, "vinyl":6}
+image_datas = glob('D:\\code\\data\\Garbage_classification/*/*.jpg')
+class_name = ["cardboard", "glass", "metal", "paper", "plastic", "trash"]
+dic = {"cardboard":0, "glass":1, "metal":2, "paper":3, "plastic":4, "trash":5}
 
 X = []
 Y = []
@@ -38,11 +38,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (63016,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (2274,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (7002,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (253,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -59,7 +59,7 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.0001
+learning_rate = 0.001
 N_EPOCHS = 100
 N_BATCH = 2
 N_CLASS = 7
@@ -80,7 +80,7 @@ def create_model():
     model.add(tf.keras.layers.Flatten())
     model.add(tf.keras.layers.Dense(256, activation='relu'))
     model.add(tf.keras.layers.Dropout(0.4))
-    model.add(tf.keras.layers.Dense(7, activation='softmax'))
+    model.add(tf.keras.layers.Dense(6, activation='softmax'))
     return model
 
 ## Create model, compile & summary
@@ -94,7 +94,7 @@ Xception = tf.keras.applications.Xception(
 model = tf.keras.models.Sequential()
 model.add(Xception)
 model.add(tf.keras.layers.GlobalAveragePooling2D())
-model.add(tf.keras.layers.Dense(7, activation='softmax'))
+model.add(tf.keras.layers.Dense(6, activation='softmax'))
 
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
 model.summary()
