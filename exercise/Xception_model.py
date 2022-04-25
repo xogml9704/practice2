@@ -11,6 +11,10 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import tensorflow as tf
 from tqdm import tqdm
 
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.per_process_gpu_memory_fraction = 0.7
+session = tf.compat.v1.Session(config=config)
+
 image_datas = glob('D:\\code\\data\\garbage/*/*/*.jpg')
 class_name = ["can", "glass", "paper", "pet", "plastic", "styrofoam", "vinyl"]
 dic = {"can":0, "glass":1, "paper":2, "pet":3, "plastic":4, "styrofoam":5, "vinyl":6}
@@ -59,9 +63,9 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.0001
+learning_rate = 0.00001
 N_EPOCHS = 100
-N_BATCH = 2
+N_BATCH = 1
 N_CLASS = 7
 
 ## dataset 구성
