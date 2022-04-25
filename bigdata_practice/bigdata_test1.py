@@ -1,5 +1,6 @@
 from ast import Num
 from genericpath import exists
+from locale import ABDAY_1
 from matplotlib import cm
 
 from psutil import users
@@ -280,4 +281,139 @@ C언어 유사 형태 출력 형식
   'if' 다음에 따라오는 조건식이 참이면 바로 아래에 있는 명령문(들)을 실행
   조건식 이후에 콜론(;)을 기입
   들여쓰기(indentation)를 정확히 해야 에러가 발생하지 않음.
+  if (조건식):
+    명렴문 1
+    ( 명령문 2
+    ... )
+
+  grade = 82
+  if (grade >= 80):
+    print('합격입니다. \n')
+
+프로그램 실행
+ IDLE 에서 프로그램 실행
+  입력한 내용을 저장 : 파일(File) 메뉴의 'Save'를 클릭
+  실행 : 런(Run) 메뉴에서 'Run Module'을 실행
+  쉘 창에 결과가 출력됨
+
+단일 if-else 구문 형식
+ if 문의 조건식이 참이면 바로 아래에 있는 명령문(들)을 실행
+ 거짓이면 else 이후의 명령어(들)을 실행
+ else 다음에는 콜론(;)을 기입
+ 반드시 일정한 길이의 들여쓰기를 만들어 줄 것
+ if (조건식) :
+   명령문 a1
+   ( 명령문 a2
+      ...    )
+ else:
+   명령문 a1
+   ( 명령문 a2
+      ...    )
+
+중첩 if문
+ 1개의 if문이 2개 이상의 조건식을 가지고 있는 if문
+ 'else if'를 줄인 'elif'를 사용
+ 들여쓰기를 정확히 하지 않으면 에러 발생
+ num = -1
+ if (num > 0):
+   print('양수!')
+ elif (num < 0):
+   print('음수')
+ else :
+   print('0')
+ 결과 : 음수
+
+for 문
+ 단일 for 문
+  범위 또는 배열에 의해서 다음의 명령문(들)을 실행
+   for 변수 in (범위 또는 배열):
+     명령문 1
+     ( 명령문 2
+     ... )
+  일반적으로 range() 함수를 사용하여 반복
+   for i in range(3):
+     print('안녕!')
+   결과
+    안녕!
+    안녕!
+    안녕!
+
+range() 함수
+ 1개의 입력 인자를 사용
+  for i in range(3):
+    print(i)
+  결과
+   0
+   1
+   2
+ 2개의 입력 인자를 사용
+  for i in range(2,5):
+    print(i)
+  결과
+   2
+   3
+   4
+ 3개의 입력 인자를 사용
+  range(시작값, 마지막값+1, 증가값)
+   for i in range(0, 7, 2):
+     print(i)
+   결과
+    0
+    2
+    4
+    6
+  range(시작값, 마지막값-1, 감소값)
+   for i in range(6, -1, -2):
+     print(i)
+   결과
+    6
+    4
+    2
+    0
+
+중첩 for 문
+ for 문 내에 또 다른 for 문이 존재
+  for i in range(3):
+    for j in range(3):
+      print('* ')
+ 결과
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+ print() 함수의 end 옵션
+  for i in range(3):
+    for j in range(3):
+      print('* ', end='')
+  결과
+   * * * * * * * * *
+
+중첩 for 문
+ 구구단의 결과를 출력
+  for i in range(1, 10):
+    for j in range(1, 10):
+      print(i*j, end=' ')
+    print()
+
+while문
+ 형식
+  while (조건식):
+    명령문 1
+    ( 명령문 2
+    ...  )
+
+ 조건식이 참이면 다음의 명령문을 실행
+  i = 0
+  while (i<3):
+    print(i)
+    i = i+1
+  결과
+  0
+  1
+  2
   

@@ -11,11 +11,11 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import tensorflow as tf
 from tqdm import tqdm
 
-config = tf.compat.v1.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.7
-session = tf.compat.v1.Session(config=config)
+# config = tf.compat.v1.ConfigProto()
+# config.gpu_options.per_process_gpu_memory_fraction = 0.7
+# session = tf.compat.v1.Session(config=config)
 
-image_datas = glob('D:\\code\\data\\garbage/*/*/*.jpg')
+image_datas = glob('D:\\code\\data\\garbage2/*/*/*.jpg')
 class_name = ["can", "glass", "paper", "pet", "plastic", "styrofoam", "vinyl"]
 dic = {"can":0, "glass":1, "paper":2, "pet":3, "plastic":4, "styrofoam":5, "vinyl":6}
 
@@ -42,11 +42,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (63016,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (31507,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (7002,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (3501,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -63,13 +63,13 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.00001
+learning_rate = 0.0001
 N_EPOCHS = 100
 N_BATCH = 1
 N_CLASS = 7
 
 ## dataset 구성
-train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=63016).batch(N_BATCH).repeat()
+train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=31507).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
 # Sequential API를 사용하여 model 구성
