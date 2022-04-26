@@ -1,11 +1,3 @@
-from ast import Num
-from genericpath import exists
-from locale import ABDAY_1
-from matplotlib import cm
-
-from psutil import users
-
-
 파이썬
  1991년에 귀도 반 로섬이 개발한 대화형 프로그래밍 언어
 

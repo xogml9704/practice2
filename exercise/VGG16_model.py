@@ -88,7 +88,7 @@ def create_model():
     return model
 
 ## Create model, compile & summary
-Xception = tf.keras.applications.Xception(
+VGG16 = tf.keras.applications.VGG16(
     include_top=False,
     weights=None,
     input_shape=(128, 128, 3),
@@ -96,7 +96,7 @@ Xception = tf.keras.applications.Xception(
 )
 
 model = tf.keras.models.Sequential()
-model.add(Xception)
+model.add(VGG16)
 model.add(tf.keras.layers.GlobalAveragePooling2D())
 model.add(tf.keras.layers.Dense(7, activation='softmax'))
 
@@ -113,4 +113,4 @@ history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_ep
 
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\Xception.h5')
+model.save('D:\\code\\model\\VGG16.h5')

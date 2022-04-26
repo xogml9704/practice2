@@ -442,4 +442,111 @@ mutable과 immutable
  print('SeJong' in student)
  print(student.get('현준'))
  print(student.get('민지'))
- print(student)
+ print(student.keys())
+ print(student.values())
+ print(student.items())
+ 결과
+ False # (키 in 사전) 
+ 1234 # 키로 값을 출력
+ 2345 # 키로 값을 출력
+ dict_keys(['현준', '민지']) # 키틀만 출력
+ dict_values([1234, 2345]) # 값들만 출력
+ dict_items([('현준', 1234), ('민지', 2345)]) # items() 메소드
+
+사전 병합
+ update() 메소드를 이용
+ student = {'현준' : 1234, '민지' : 2345, '승민' : 3456, '유진' : 4567}
+ 
+집합(Set)
+ 중복되지 않고 정렬되지 않은 원소들로 구성됨
+ 사전과 같이 {} 기호를 사용하고 원소들을 콤마(,)로 구분
+ 사전과 달리 키만 있고 값이 없는 형식
+ dict = { } # 빈 사전을 생성 또는 dict = set()
+ dict = {3, 2, 3, 1} # 중복된 원소를 포함한 데이터 입력
+ print(dict)
+ 결과 {1, 2, 3}
+
+ set() 함수를 이용하여 리스트나 튜플을 집합 형태로 생성 할 수 있음
+ fruits = ['사과', '오렌지', '포도', '오렌지']
+ fruits = set(fruits)
+ print(fruits)
+ 결과
+ ['오렌지', '사과', '포도']
+
+집합의 원소 추가 및 삭제
+ 추가
+  add()
+  fruits = {'사과', '오렌지', '포도'}
+  fruits.add('키위')
+  print(fruits)
+  결과
+  {'키위', '사과', '포도', '오렌지'}
+  update()
+  fruits = {'사과', '오렌지', '포도'}
+  fruits.update({'수박', '배'})
+  print(fruits)
+  결과
+  {'사과', '포도', '오렌지', '수박', '배'}
+
+ 삭제
+  remove()
+  pop()
+  fruits = {'사과', '오렌지', '포도', '수박'}
+  fruits.remove('오렌지')
+  print(fruits)
+  fruits.pop()
+  print(fruits)
+  fruits.clear()
+  print(fruits)
+  결과
+  {'사과', '수박', '포도'}
+  {'수박', '포도'}
+  set()           # 집합에 원소가 비어있다는 의미
+
+집합
+ 존재여부
+  해당하는 값이 멤버인지 확인하려면 'in'이나 'not in' 사용
+  fruits = {'사과', '오렌지', '포도'}
+  print('사과' in fruits)
+  print('키위' not in fruits)
+  결과
+  True
+  True
+
+연산자 / 기능 / 설명
+| / 합집합(union) / 두 집합의 모든 원소
+& / 교집합(intersection) / 두 집합에서 공통적으로 가지고 있는 원소
+- / 차집합(difference) / 왼쪽 집합에서 오른쪽 집합의 원소를 뺀 것
+^ / 배타적 차집합(symmetric difference) / 공통된 원소를 제외한 모든 원소
+
+one = {1, 3, 5, 7, 8}
+two = {1, 3, 5, 6, 8}
+print('one | two:', one | two)
+print('one & two:', one & two)
+print('one - two:', one - two)
+print('one ^ two:', one ^ two)
+결과
+one | two : {1, 3, 5, 6, 7, 8}
+one & two : {1, 3, 5, 6, 7, 8}
+one - two : {7}
+one ^ two : {6, 7}
+
+집합의 관계 연산자
+ 연산자 / 기능 / 설명
+ <= / 부분집합(subset) 부분집합 / 왼쪽집합의 모든 원소가 오른쪽에 있는지 조사
+ < / 부분집합(subset) 진부분집합 / 왼쪽집합의 모든 원소가 오른쪽에 있는지 조사(단, 2개는 같지 않아야 한다.)
+ >= / 상위집합(superset) 상위집합 / 오른쪽집합의 모든 원소가 왼쪽에 있는지 조사
+ > / 상위집합(superset) 진상위집합 / 오른쪽집합의 모든 원소가 왼쪽에 있는지 조사(단, 2개는 같지 않아야 한다.)
+
+ one = {1, 3, 5 ,8}
+ two = {1, 3, 5, 8}
+ print('one <= two : ', one <= two)
+ print('one < two :', one < two)
+ print('one >= two :', one >= two)
+ print('one > two : ', one > two)
+ 결과
+ one <= two : True
+ one < two : False
+ one >= two : True
+ one > two : False
+
