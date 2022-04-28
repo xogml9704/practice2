@@ -11,9 +11,13 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import tensorflow as tf
 from tqdm import tqdm
 
-image_datas = glob('D:\\code\\data\\Garbage_classification/*/*.jpg')
-class_name = ["cardboard", "glass", "metal", "paper", "plastic", "trash"]
-dic = {"cardboard":0, "glass":1, "metal":2, "paper":3, "plastic":4, "trash":5}
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.compat.v1.InteractiveSession(config=config)
+
+image_datas = glob('D:\\code\\data\\garbage2/*/*/*.jpg')
+class_name = ["can", "glass", "paper", "pet", "plastic", "styrofoam", "vinyl"]
+dic = {"can":0, "glass":1, "paper":2, "pet":3, "plastic":4, "styrofoam":5, "vinyl":6}
 
 X = []
 Y = []
@@ -38,11 +42,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (2274,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (15754,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (253,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (1751,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -59,54 +63,18 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.001
+learning_rate = 0.0001
 N_EPOCHS = 100
-N_BATCH = 2
+N_BATCH = 1
 N_CLASS = 7
 
 ## dataset 구성
-train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=63016).batch(N_BATCH).repeat()
+train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-# Sequential API를 사용하여 model 구성
-def create_model():
-    model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', padding='SAME', input_shape=(299, 299, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation='relu', padding='SAME', input_shape=(299, 299, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='SAME', input_shape=(299, 299, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(256, activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.4))
-    model.add(tf.keras.layers.Dense(6, activation='softmax'))
-    return model
+new_model = tf.keras.models.load_model('D:\\code\\model\\VGG16.h5')
 
-## Create model, compile & summary
-Xception = tf.keras.applications.Xception(
-    include_top=False,
-    weights=None,
-    input_shape=(128, 128, 3),
-    pooling=max
-)
+test_loss ,test_acc = new_model.evaluate(test_dataset)
 
-model = tf.keras.models.Sequential()
-model.add(Xception)
-model.add(tf.keras.layers.GlobalAveragePooling2D())
-model.add(tf.keras.layers.Dense(6, activation='softmax'))
-
-model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
-model.summary()
-
-## parameters for training
-steps_per_epoch = N_TRAIN//N_BATCH
-validation_steps = N_TEST//N_BATCH
-print(steps_per_epoch, validation_steps)
-
-## Training
-history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
-
-model.evaluate(test_dataset)
-
-model.save('D:\\code\\model\\Xception_test.h5')
+print("test_loss : ", test_loss)
+print("test_acc : ", test_acc)
