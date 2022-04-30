@@ -72,7 +72,7 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-new_model = tf.keras.models.load_model('D:\\code\\model\\VGG16.h5')
+new_model = tf.keras.models.load_model('D:\\code\\model\\Xception.h5')
 
 test_loss ,test_acc = new_model.evaluate(test_dataset)
 
