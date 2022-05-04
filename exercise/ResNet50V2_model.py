@@ -113,4 +113,4 @@ history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_ep
 
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\VGG16.h5')
+model.save('D:\\code\\model\\ResNet50V2.h5')
