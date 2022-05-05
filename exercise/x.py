@@ -65,16 +65,24 @@ print(test_images.shape, test_labels.shape)
 
 learning_rate = 0.0001
 N_EPOCHS = 100
-N_BATCH = 1
+N_BATCH = 2
 N_CLASS = 7
 
 ## dataset 구성
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-new_model = tf.keras.models.load_model('D:\\code\\model\\Xception.h5')
+new_model = tf.keras.models.load_model('D:\\code\\model\\ResNet50V2.h5')
 
-test_loss ,test_acc = new_model.evaluate(test_dataset)
+steps_per_epoch = N_TRAIN//N_BATCH
+validation_steps = N_TEST//N_BATCH
 
-print("test_loss : ", test_loss)
-print("test_acc : ", test_acc)
+history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
+
+
+# test_loss ,test_acc = new_model.evaluate(test_dataset)
+
+# print("test_loss : ", test_loss)
+# print("test_acc : ", test_acc)
+
+new_model.save('D:\\code\\model\\ResNet50V2_2.h5')
