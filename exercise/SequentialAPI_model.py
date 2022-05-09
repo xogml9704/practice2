@@ -23,7 +23,7 @@ X = []
 Y = []
 for imagename in tqdm(image_datas):
     image = Image.open(imagename)
-    image = image.resize((28, 28))
+    image = image.resize((128, 128))
     image = np.array(image)
     X.append(image)
     label = imagename.split('\\')[4]
@@ -75,18 +75,24 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).ba
 # Sequential API를 사용하여 model 구성
 def create_model():
     model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', padding='SAME', input_shape=(28, 28, 3)))
+    model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
     model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation='relu', padding='SAME', input_shape=(28, 28, 3)))
+    model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
     model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='SAME', input_shape=(28, 28, 3)))
+    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
     model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=256, kernel_size=3, activation='relu', padding='SAME', input_shape=(28, 28, 3)))
+    model.add(tf.keras.layers.Conv2D(filters=256, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
     model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
     model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(512, activation='relu'))
+    model.add(tf.keras.layers.Dropout(0.4))
     model.add(tf.keras.layers.Dense(256, activation='relu'))
     model.add(tf.keras.layers.Dropout(0.4))
-    model.add(tf.keras.layers.Dense(512, activation='relu'))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(64, activation='relu'))
+    model.add(tf.keras.layers.Dense(32, activation='relu'))
+    model.add(tf.keras.layers.Dense(16, activation='relu'))
+    model.add(tf.keras.layers.Dense(8, activation='relu'))
     model.add(tf.keras.layers.Dropout(0.4))
     model.add(tf.keras.layers.Dense(7, activation='softmax'))
     return model
