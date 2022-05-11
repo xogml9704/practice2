@@ -23,7 +23,7 @@ X = []
 Y = []
 for imagename in tqdm(image_datas):
     image = Image.open(imagename)
-    image = image.resize((64, 64))
+    image = image.resize((128, 128))
     image = np.array(image)
     X.append(image)
     label = imagename.split('\\')[4]
@@ -72,7 +72,7 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-new_model = tf.keras.models.load_model('D:\\code\\model\\Sequential_model_test.h5')
+new_model = tf.keras.models.load_model('D:\\code\\model\\ResNet50V2.h5')
 
 steps_per_epoch = N_TRAIN//N_BATCH
 validation_steps = N_TEST//N_BATCH
