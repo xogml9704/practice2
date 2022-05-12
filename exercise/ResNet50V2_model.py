@@ -63,7 +63,7 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.0001
+learning_rate = 0.001
 N_EPOCHS = 100
 N_BATCH = 2
 N_CLASS = 7
@@ -72,20 +72,6 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-# Sequential API를 사용하여 model 구성
-def create_model():
-    model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', padding='SAME', input_shape=(299, 299, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation='relu', padding='SAME', input_shape=(299, 299, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='SAME', input_shape=(299, 299, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(256, activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.4))
-    model.add(tf.keras.layers.Dense(7, activation='softmax'))
-    return model
 
 ## Create model, compile & summary
 ResNet50V2 = tf.keras.applications.ResNet50V2(
