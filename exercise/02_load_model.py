@@ -63,7 +63,7 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.00001
+learning_rate = 0.0001
 N_EPOCHS = 100
 N_BATCH = 2
 N_CLASS = 7
@@ -72,37 +72,17 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-# Sequential API를 사용하여 model 구성
-def create_model():
-    model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(512, activation='relu'))
-    model.add(tf.keras.layers.Dense(40, activation='relu'))
-    model.add(tf.keras.layers.Dense(7, activation='softmax'))
-    return model
+new_model = tf.keras.models.load_model('D:\\code\\model\\Sequential_model_test.h5')
 
-## Create model, compile & summary
-model = create_model()
-
-model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
-model.summary()
-
-## parameters for training
 steps_per_epoch = N_TRAIN//N_BATCH
 validation_steps = N_TEST//N_BATCH
-print(steps_per_epoch, validation_steps)
 
-## Training
-history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
+# history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
 
-model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\Sequential_model_test.h5')
+test_loss ,test_acc = new_model.evaluate(test_dataset)
+
+print("test_loss : ", test_loss)
+print("test_acc : ", test_acc)
+
+# new_model.save('D:\\code\\model\\ResNet50V2_2.h5')
