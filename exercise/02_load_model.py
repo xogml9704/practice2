@@ -77,8 +77,9 @@ new_model = tf.keras.models.load_model('D:\\code\\model\\Sequential_model_test.h
 steps_per_epoch = N_TRAIN//N_BATCH
 validation_steps = N_TEST//N_BATCH
 
-# history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
+history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
 
+new_model.save('D:\\code\\model\\test_model02.h5')
 
 test_loss ,test_acc = new_model.evaluate(test_dataset)
 
