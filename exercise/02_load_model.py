@@ -72,14 +72,14 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-new_model = tf.keras.models.load_model('D:\\code\\model\\Sequential_model_test.h5')
+new_model = tf.keras.models.load_model('D:\\code\\model\\test_model03.h5')
 
 steps_per_epoch = N_TRAIN//N_BATCH
 validation_steps = N_TEST//N_BATCH
 
-history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
+# history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
 
-new_model.save('D:\\code\\model\\test_model02.h5')
+# new_model.save('D:\\code\\model\\test_model03.h5')
 
 test_loss ,test_acc = new_model.evaluate(test_dataset)
 
