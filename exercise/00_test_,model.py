@@ -16,8 +16,8 @@ config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
 image_datas = glob('D:\\code\\data\\garbage_test/*/*/*.jpg')
-class_name = ["a", "b", "c", "d"]
-dic = {"a":0, "b":1, "c":2, "d":3}
+class_name = ["a", "b", "c"]
+dic = {"a":0, "b":1, "c":2}
 X = []
 Y = []
 for imagename in tqdm(image_datas):
@@ -41,11 +41,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (28552,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (7668,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (3173,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (852,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -62,10 +62,10 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.001
+learning_rate = 0.0001
 N_EPOCHS = 100
 N_BATCH = 2
-N_CLASS = 7
+N_CLASS = 4
 
 ## dataset 구성
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
@@ -83,7 +83,7 @@ ResNet50V2 = tf.keras.applications.ResNet50V2(
 model = tf.keras.models.Sequential()
 model.add(ResNet50V2)
 model.add(tf.keras.layers.GlobalAveragePooling2D())
-model.add(tf.keras.layers.Dense(4, activation='softmax'))
+model.add(tf.keras.layers.Dense(3, activation='softmax'))
 
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
 model.summary()
@@ -98,4 +98,9 @@ history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_ep
 
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\ResNet50V2.h5')
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.legend(['training', 'validation'], loc = 'upper left')
+plt.show()
+
+model.save('D:\\code\\model\\00_test_model.h5')
