@@ -33,7 +33,7 @@ X = np.array(X)
 Y = np.array(Y)
 
 train_images, test_images, train_labels, test_labels = train_test_split(
-    X, Y,test_size=0.1, shuffle=True, random_state=44)
+    X, Y,test_size=0.2, shuffle=True, random_state=44)
 
 train_labels = train_labels[..., tf.newaxis]
 test_labels = test_labels[..., tf.newaxis]
@@ -41,11 +41,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (7668,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (6816,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (852,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (1704,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -103,4 +103,4 @@ plt.plot(history.history['val_accuracy'])
 plt.legend(['training', 'validation'], loc = 'upper left')
 plt.show()
 
-model.save('D:\\code\\model\\00_test_model.h5')
+model.save('D:\\code\\model\\00_test_model2.h5')
