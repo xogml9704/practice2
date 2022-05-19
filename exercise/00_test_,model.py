@@ -98,8 +98,8 @@ history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_ep
 
 model.evaluate(test_dataset)
 
-plt.plot(history['acc'])
-plt.plot(history['val_acc'])
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
 plt.legend(['training', 'validation'], loc = 'upper left')
 plt.show()
 
