@@ -15,7 +15,7 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_datas = glob('D:\\code\\data\\bottle/*/*/*.jpg')
+image_datas = glob('D:\\code\\data\\bottle2/*/*/*.jpg')
 class_name = ["a", "b", "c", "d"]
 dic = {"a":0, "b":1, "c":2, "d":3}
 X = []
@@ -41,11 +41,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (8344,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (9346,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (928,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (1039,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -64,7 +64,7 @@ print(test_images.shape, test_labels.shape)
 
 learning_rate = 0.0001
 N_EPOCHS = 100
-N_BATCH = 2
+N_BATCH = 1
 N_CLASS = 4
 
 ## dataset 구성
@@ -120,4 +120,4 @@ plt.plot(history.history['val_accuracy'])
 plt.legend(['training', 'validation'], loc = 'upper left')
 plt.show()
 
-model.save('D:\\code\\model\\000_bottle.h5')
+model.save('D:\\code\\model\\000_bottle2.h5')
