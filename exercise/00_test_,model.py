@@ -41,11 +41,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (7668,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (8344,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (852,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (928,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -80,10 +80,27 @@ ResNet50V2 = tf.keras.applications.ResNet50V2(
     pooling=max
 )
 
-model = tf.keras.models.Sequential()
-model.add(ResNet50V2)
-model.add(tf.keras.layers.GlobalAveragePooling2D())
-model.add(tf.keras.layers.Dense(3, activation='softmax'))
+# Sequential API를 사용하여 model 구성
+def create_model():
+    model = tf.keras.Sequential()
+    model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
+    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
+    model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
+    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
+    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='SAME', input_shape=(128, 128, 3)))
+    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(256, activation='relu'))
+    model.add(tf.keras.layers.Dropout(0.4))
+    model.add(tf.keras.layers.Dense(4, activation='softmax'))
+    return model
+
+## Create model, compile & summary
+model = create_model()
+# model = tf.keras.models.Sequential()
+# model.add(ResNet50V2)
+# model.add(tf.keras.layers.GlobalAveragePooling2D())
+# model.add(tf.keras.layers.Dense(4, activation='softmax'))
 
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
 model.summary()
@@ -103,4 +120,4 @@ plt.plot(history.history['val_accuracy'])
 plt.legend(['training', 'validation'], loc = 'upper left')
 plt.show()
 
-model.save('D:\\code\\model\\00_test_model2.h5')
+model.save('D:\\code\\model\\000_bottle.h5')
