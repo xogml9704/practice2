@@ -15,9 +15,9 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_datas = glob('D:\\code\\data\\garbage_test/*/*/*.jpg')
-class_name = ["a", "b", "c"]
-dic = {"a":0, "b":1, "c":2}
+image_datas = glob('D:\\code\\data\\bottle/*/*/*.jpg')
+class_name = ["a", "b", "c", "d"]
+dic = {"a":0, "b":1, "c":2, "d":3}
 X = []
 Y = []
 for imagename in tqdm(image_datas):
