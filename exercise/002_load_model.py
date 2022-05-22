@@ -63,7 +63,7 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.0001
+learning_rate = 0.00001
 N_EPOCHS = 100
 N_BATCH = 2
 N_CLASS = 7
@@ -86,4 +86,4 @@ test_loss ,test_acc = new_model.evaluate(test_dataset)
 print("test_loss : ", test_loss)
 print("test_acc : ", test_acc)
 
-new_model.save('D:\\code\\model\\000_bottle_1~2.h5')
+new_model.save('D:\\code\\model\\000_bottle_1~3.h5')
