@@ -15,7 +15,7 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_datas = glob('D:\\code\\data\\bottle2/*/*/*.jpg')
+image_datas = glob('D:\\code\\data\\bottle/*/*/*.jpg')
 class_name = ["a", "b", "c", "d"]
 dic = {"a":0, "b":1, "c":2, "d":3}
 
@@ -63,7 +63,7 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.00001
+learning_rate = 0.0001
 N_EPOCHS = 100
 N_BATCH = 2
 N_CLASS = 7
@@ -72,18 +72,33 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-new_model = tf.keras.models.load_model('D:\\code\\model\\000_bottle_1~3.h5')
 
+def create_model():
+    model = tf.keras.Sequential()
+    model.add(tf.keras.layers.Input(shape=[128, 128, 3]))
+    model.add(tf.keras.layers.Conv2D(6, kernel_size=5, activation='swish'))
+    model.add(tf.keras.layers.MaxPool2D())
+    model.add(tf.keras.layers.Conv2D(16, kernel_size=5, activation='swish'))
+    model.add(tf.keras.layers.MaxPool2D())
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(120, activation='swish'))
+    model.add(tf.keras.layers.Dense(84, activation='swish'))
+    model.add(tf.keras.layers.Dense(4, activation='softmax'))
+    return model
+
+model = create_model()
+
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
+model.summary()
+
+## parameters for training
 steps_per_epoch = N_TRAIN//N_BATCH
 validation_steps = N_TEST//N_BATCH
+print(steps_per_epoch, validation_steps)
 
-history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
+## Training
+history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
 
-# new_model.save('D:\\code\\model\\test_model03.h5')
+model.evaluate(test_dataset)
 
-test_loss ,test_acc = new_model.evaluate(test_dataset)
-
-print("test_loss : ", test_loss)
-print("test_acc : ", test_acc)
-
-new_model.save('D:\\code\\model\\000_bottle_3~4.h5')
+model.save('D:\\code\\model\\lenet5.h5')

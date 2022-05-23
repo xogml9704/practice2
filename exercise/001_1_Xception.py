@@ -63,7 +63,7 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.00001
+learning_rate = 0.001
 N_EPOCHS = 100
 N_BATCH = 2
 N_CLASS = 7
@@ -72,18 +72,31 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
-new_model = tf.keras.models.load_model('D:\\code\\model\\000_bottle_1~3.h5')
 
+## Create model, compile & summary
+Xception = tf.keras.applications.Xception(
+    include_top=False,
+    weights=None,
+    input_shape=(128, 128, 3),
+    pooling=max
+)
+
+model = tf.keras.models.Sequential()
+model.add(Xception)
+model.add(tf.keras.layers.GlobalAveragePooling2D())
+model.add(tf.keras.layers.Dense(4, activation='softmax'))
+
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
+model.summary()
+
+## parameters for training
 steps_per_epoch = N_TRAIN//N_BATCH
 validation_steps = N_TEST//N_BATCH
+print(steps_per_epoch, validation_steps)
 
-history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
+## Training
+history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
 
-# new_model.save('D:\\code\\model\\test_model03.h5')
+model.evaluate(test_dataset)
 
-test_loss ,test_acc = new_model.evaluate(test_dataset)
-
-print("test_loss : ", test_loss)
-print("test_acc : ", test_acc)
-
-new_model.save('D:\\code\\model\\000_bottle_3~4.h5')
+model.save('D:\\code\\model\\test_ResNet50V2.h5')
