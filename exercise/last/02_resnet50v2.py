@@ -42,11 +42,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (9346,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (8344,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (1039,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (928,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -74,7 +74,7 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).ba
 
 
 ## Create model, compile & summary
-Xception = tf.keras.applications.Xception(
+ResNet50V2 = tf.keras.applications.ResNet50V2(
     include_top=False,
     weights=None,
     input_shape=(128, 128, 3),
@@ -82,7 +82,7 @@ Xception = tf.keras.applications.Xception(
 )
 
 model = tf.keras.models.Sequential()
-model.add(Xception)
+model.add(ResNet50V2)
 model.add(tf.keras.layers.GlobalAveragePooling2D())
 model.add(tf.keras.layers.Dense(4, activation='softmax'))
 
@@ -99,4 +99,4 @@ history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_ep
 
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\test_ResNet50V2.h5')
+model.save('D:\\code\\model\\ResNet50V2.h5')
