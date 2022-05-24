@@ -74,7 +74,7 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).ba
 
 
 ## Create model, compile & summary
-VGG19 = tf.keras.applications.VGG19(
+Xception = tf.keras.applications.Xception(
     include_top=False,
     weights=None,
     input_shape=(128, 128, 3),
@@ -82,7 +82,7 @@ VGG19 = tf.keras.applications.VGG19(
 )
 
 model = tf.keras.models.Sequential()
-model.add(VGG19)
+model.add(Xception)
 model.add(tf.keras.layers.GlobalAveragePooling2D())
 model.add(tf.keras.layers.Dense(4, activation='softmax'))
 
@@ -99,4 +99,4 @@ history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_ep
 
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\VGG19.h5')
+model.save('D:\\code\\model\\Xception.h5')
