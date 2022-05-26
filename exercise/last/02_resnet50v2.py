@@ -11,19 +11,33 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import tensorflow as tf
 from tqdm import tqdm
 
+
+tf.keras.backend.clear_session()
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_datas = glob('D:\\code\\data\\bottle/*/*/*.jpg')
-class_name = ["a", "b", "c", "d"]
-dic = {"a":0, "b":1, "c":2, "d":3}
+image_datas = glob('D:\\code\\data\\final/*/*/*.jpg')
+class_name = ["can01", "can02", "can03", "can04", "can05", 
+            "glass01", "glass02", "glass03", "glass04", "glass05", "glass06",
+            "paper01", "paper02", "paper03", "paper04",
+            "pet01", "pet02",
+            "plastic",
+            "styrofoam01", "styrofoam02", "styrofoam03",
+            "vinyl"]
+dic = {"can01":0, "can02":1, "can03":3, "can04":4, "can05":5, 
+            "glass01":6, "glass02":7, "glass03":8, "glass04":9, "glass05":10, "glass06":11,
+            "paper01":12, "paper02":13, "paper03":14, "paper04":15,
+            "pet01":16, "pet02":17,
+            "plastic":18,
+            "styrofoam01":19, "styrofoam02":20, "styrofoam03":21,
+            "vinyl":22}
 
 X = []
 Y = []
 for imagename in tqdm(image_datas):
     image = Image.open(imagename)
-    image = image.resize((128, 128))
+    image = image.resize((64, 64))
     image = np.array(image)
     X.append(image)
     label = imagename.split('\\')[4]
@@ -42,11 +56,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (8344,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (29223,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (928,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (3247,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -77,14 +91,14 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).ba
 ResNet50V2 = tf.keras.applications.ResNet50V2(
     include_top=False,
     weights=None,
-    input_shape=(128, 128, 3),
+    input_shape=(64, 64, 3),
     pooling=max
 )
 
 model = tf.keras.models.Sequential()
 model.add(ResNet50V2)
 model.add(tf.keras.layers.GlobalAveragePooling2D())
-model.add(tf.keras.layers.Dense(4, activation='softmax'))
+model.add(tf.keras.layers.Dense(23, activation='softmax'))
 
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
 model.summary()

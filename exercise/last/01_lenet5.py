@@ -36,7 +36,7 @@ X = []
 Y = []
 for imagename in tqdm(image_datas):
     image = Image.open(imagename)
-    image = image.resize((128, 128))
+    image = image.resize((64, 64))
     image = np.array(image)
     X.append(image)
     label = imagename.split('\\')[4]
@@ -55,11 +55,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (46658,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (29223,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (5185,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (3247,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -88,7 +88,7 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).ba
 
 def create_model():
     model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Input(shape=[128, 128, 3]))
+    model.add(tf.keras.layers.Input(shape=[64, 64, 3]))
     model.add(tf.keras.layers.Conv2D(6, kernel_size=5, activation='swish'))
     model.add(tf.keras.layers.MaxPool2D())
     model.add(tf.keras.layers.Conv2D(16, kernel_size=5, activation='swish'))
@@ -96,7 +96,7 @@ def create_model():
     model.add(tf.keras.layers.Flatten())
     model.add(tf.keras.layers.Dense(120, activation='swish'))
     model.add(tf.keras.layers.Dense(84, activation='swish'))
-    model.add(tf.keras.layers.Dense(4, activation='softmax'))
+    model.add(tf.keras.layers.Dense(23, activation='softmax'))
     return model
 
 model = create_model()
