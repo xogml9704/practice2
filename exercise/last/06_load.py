@@ -85,45 +85,18 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
+new_model = tf.keras.models.load_model('D:\\code\\model\\Xception.h5')
 
-def create_model():
-    model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', padding='SAME', input_shape=(64, 64, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation='relu', padding='SAME', input_shape=(64, 64, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation='relu', padding='SAME', input_shape=(64, 64, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Conv2D(filters=256, kernel_size=3, activation='relu', padding='SAME', input_shape=(64, 64, 3)))
-    model.add(tf.keras.layers.MaxPool2D(padding='SAME'))
-    model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(512, activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.4))
-    model.add(tf.keras.layers.Dense(256, activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.4))
-    model.add(tf.keras.layers.Dense(128, activation='relu'))
-    model.add(tf.keras.layers.Dense(64, activation='relu'))
-    model.add(tf.keras.layers.Dense(32, activation='relu'))
-    model.add(tf.keras.layers.Dense(16, activation='relu'))
-    model.add(tf.keras.layers.Dense(8, activation='relu'))
-    model.add(tf.keras.layers.Dropout(0.4))
-    model.add(tf.keras.layers.Dense(23, activation='softmax'))
-    return model
-
-
-model = create_model()
-
-model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
-model.summary()
-
-## parameters for training
 steps_per_epoch = N_TRAIN//N_BATCH
 validation_steps = N_TEST//N_BATCH
-print(steps_per_epoch, validation_steps)
 
-## Training
-history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
+history = new_model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
 
-model.evaluate(test_dataset)
+# new_model.save('D:\\code\\model\\test_model03.h5')
 
-model.save('D:\\code\\model\\final_model.h5')
+test_loss ,test_acc = new_model.evaluate(test_dataset)
+
+print("test_loss : ", test_loss)
+print("test_acc : ", test_acc)
+
+new_model.save('D:\\code\\model\\Xception_2.h5')
