@@ -36,7 +36,7 @@ X = []
 Y = []
 for imagename in tqdm(image_datas):
     image = Image.open(imagename)
-    image = image.resize((64, 64))
+    image = image.resize((71, 71))
     image = np.array(image)
     X.append(image)
     label = imagename.split('\\')[4]
