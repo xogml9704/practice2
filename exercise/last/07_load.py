@@ -36,7 +36,7 @@ X = []
 Y = []
 for imagename in tqdm(image_datas):
     image = Image.open(imagename)
-    image = image.resize((64, 64))
+    image = image.resize((71, 71))
     image = np.array(image)
     X.append(image)
     label = imagename.split('\\')[4]
@@ -85,18 +85,39 @@ N_CLASS = 7
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
+# model1 = tf.keras.models.load_model('D:\\code\\model\\lenet5.h5')
 
-model1 = tf.keras.models.load_model('D:\\code\\model\\VGG19.h5')
+# test_loss1 ,test_acc1 = model1.evaluate(test_dataset)
 
-test_loss1 ,test_acc1 = model1.evaluate(test_dataset)
+# print("lenet5_loss : ", test_loss1)
+# print("lenet5_acc : ", test_acc1)
 
-print("Xception_loss : ", test_loss1)
-print("xception_acc : ", test_acc1)
+# model2 = tf.keras.models.load_model('D:\\code\\model\\ResNet50V2.h5')
+
+# test_loss2 ,test_acc2 = model2.evaluate(test_dataset)
+
+# print("ResNet50V2_loss : ", test_loss2)
+# print("ResNet50V2_acc : ", test_acc2)
 
 
-model2 = tf.keras.models.load_model('D:\\code\\model\\final_model.h5')
+# model3 = tf.keras.models.load_model('D:\\code\\model\\VGG19.h5')
 
-test_loss2 ,test_acc2 = model2.evaluate(test_dataset)
+# test_loss3 ,test_acc3 = model3.evaluate(test_dataset)
 
-print("Sequential_model_loss : ", test_loss2)
-print("Sequential_model_acc : ", test_acc2)
+# print("VGG19_loss : ", test_loss3)
+# print("VGG19_acc : ", test_acc3)
+
+# model4 = tf.keras.models.load_model('D:\\code\\model\\final_model.h5')
+
+# test_loss4 ,test_acc4 = model4.evaluate(test_dataset)
+
+# print("final_model_loss : ", test_loss4)
+# print("final_model_acc : ", test_acc4)
+
+
+model5 = tf.keras.models.load_model('D:\\code\\model\\Xception.h5')
+
+test_loss5 ,test_acc5 = model5.evaluate(test_dataset)
+
+print("Xception_loss : ", test_loss5)
+print("Xception_acc : ", test_acc5)

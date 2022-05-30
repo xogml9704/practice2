@@ -76,9 +76,9 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.001
+learning_rate = 0.0001
 N_EPOCHS = 100
-N_BATCH = 2
+N_BATCH = 4
 N_CLASS = 7
 
 ## dataset 구성
@@ -112,4 +112,4 @@ history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_ep
 
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\Xception.h5')
+model.save('D:\\code\\model\\Xception2.h5')
