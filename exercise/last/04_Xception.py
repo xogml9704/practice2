@@ -77,7 +77,7 @@ print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
 learning_rate = 0.0001
-N_EPOCHS = 100
+N_EPOCHS = 1000
 N_BATCH = 4
 N_CLASS = 7
 
@@ -108,8 +108,8 @@ validation_steps = N_TEST//N_BATCH
 print(steps_per_epoch, validation_steps)
 
 ## Training
-history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps)
-
+early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=10, min_delta=0.005)
+history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps, callbacks=[early_stopping])
 model.evaluate(test_dataset)
 
 model.save('D:\\code\\model\\Xception2.h5')
