@@ -16,7 +16,7 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_datas = glob('D:\\code\\data\\final/*/*/*.jpg')
+image_datas = glob('D:\\code\\data\\final2/*/*/*.jpg')
 class_name = ["can01", "can02", "can03", "can04", "can05", 
             "glass01", "glass02", "glass03", "glass04", "glass05", "glass06",
             "paper01", "paper02", "paper03", "paper04",
@@ -55,11 +55,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (29223,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (17435,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (3247,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (1938,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -82,7 +82,7 @@ N_BATCH = 4
 N_CLASS = 7
 
 ## dataset 구성
-train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
+train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=50000).batch(N_BATCH).repeat()
 test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(N_BATCH)
 
 
@@ -112,4 +112,4 @@ early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patien
 history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps, callbacks=[early_stopping])
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\Xception2.h5')
+model.save('D:\\code\\model\\Xception3.h5')
