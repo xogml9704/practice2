@@ -108,7 +108,7 @@ validation_steps = N_TEST//N_BATCH
 print(steps_per_epoch, validation_steps)
 
 ## Training
-early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=10, min_delta=0.005)
+early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=10, min_delta=0.0005)
 history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps, callbacks=[early_stopping])
 model.evaluate(test_dataset)
 
