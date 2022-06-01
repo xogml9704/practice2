@@ -16,7 +16,7 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_datas = glob('D:\\code\\data\\final/*/*/*.jpg')
+image_datas = glob('D:\\code\\data\\final2/*/*/*.jpg')
 class_name = ["can01", "can02", "can03", "can04", "can05", 
             "glass01", "glass02", "glass03", "glass04", "glass05", "glass06",
             "paper01", "paper02", "paper03", "paper04",
@@ -55,11 +55,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (29223,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (17435,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (3247,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (1938,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
@@ -99,4 +99,4 @@ test_loss ,test_acc = new_model.evaluate(test_dataset)
 print("test_loss : ", test_loss)
 print("test_acc : ", test_acc)
 
-new_model.save('D:\\code\\model\\Xception_2.h5')
+new_model.save('D:\\code\\model\\Xception_load.h5')
