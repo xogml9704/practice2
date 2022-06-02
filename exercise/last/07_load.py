@@ -78,7 +78,7 @@ print(test_images.shape, test_labels.shape)
 
 learning_rate = 0.0001
 N_EPOCHS = 100
-N_BATCH = 2
+N_BATCH = 4
 N_CLASS = 7
 
 ## dataset 구성
