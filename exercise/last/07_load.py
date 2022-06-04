@@ -76,7 +76,7 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
 
-learning_rate = 0.0001
+learning_rate = 0.001
 N_EPOCHS = 100
 N_BATCH = 4
 N_CLASS = 7
