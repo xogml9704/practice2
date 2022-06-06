@@ -16,7 +16,7 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_data = glob('D:\\code\\data\\ex/*.png')
+image_data = glob('D:\\code\\data\\ex/*.jpg')
 # dic = {"can01":0, "can02":1, "can03":3, "can04":4, "can05":5, 
 #             "glass01":6, "glass02":7, "glass03":8, "glass04":9, "glass05":10, "glass06":11,
 #             "paper01":12, "paper02":13, "paper03":14, "paper04":15,
