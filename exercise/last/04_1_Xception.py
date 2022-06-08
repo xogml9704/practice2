@@ -16,27 +16,15 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_datas = glob('D:\\code\\data\\final2/*/*/*.jpg')
-class_name = ["can01", "can02", "can03", "can04", "can05", 
-            "glass01", "glass02", "glass03", "glass04", "glass05", "glass06",
-            "paper01", "paper02", "paper03", "paper04",
-            "pet01", "pet02",
-            "plastic",
-            "styrofoam01", "styrofoam02", "styrofoam03",
-            "vinyl"]
-dic = {"can01":0, "can02":1, "can03":3, "can04":4, "can05":5, 
-            "glass01":6, "glass02":7, "glass03":8, "glass04":9, "glass05":10, "glass06":11,
-            "paper01":12, "paper02":13, "paper03":14, "paper04":15,
-            "pet01":16, "pet02":17,
-            "plastic":18,
-            "styrofoam01":19, "styrofoam02":20, "styrofoam03":21,
-            "vinyl":22}
+image_datas = glob('D:\\code\\data\\final_2/*/*/*.jpg')
+class_name = ["can01", "glass01", "paper01", "pet01", "plastic", "styrofoam01", "vinyl"]
+dic = {"can01":0, "glass01":1, "paper01":2, "pet01":3, "plastic":4, "styrofoam01":5, "vinyl":6}
 
 X = []
 Y = []
 for imagename in tqdm(image_datas):
     image = Image.open(imagename)
-    image = image.resize((100, 100))
+    image = image.resize((71, 71))
     image = np.array(image)
     X.append(image)
     label = imagename.split('\\')[4]
@@ -112,4 +100,4 @@ early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patien
 history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps, callbacks=[early_stopping])
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\Xception3.h5')
+model.save('D:\\code\\model\\Xception_final.h5')
