@@ -43,11 +43,11 @@ test_labels = test_labels[..., tf.newaxis]
 print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
 
 ## training set의 각 class 별 image 수 확인
-unique, counts = np.unique(np.reshape(train_labels, (17435,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(train_labels, (29223,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 ## test set의 각 class 별 images 수 확인
-unique, counts = np.unique(np.reshape(test_labels, (1938,)), axis=-1, return_counts=True)
+unique, counts = np.unique(np.reshape(test_labels, (3247,)), axis=-1, return_counts=True)
 print(dict(zip(unique, counts)))
 
 N_TRAIN = train_images.shape[0]
