@@ -16,21 +16,24 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.InteractiveSession(config=config)
 
-image_datas = glob('D:\\code\\data\\final/*/*/*.jpg')
-class_name = ["can01", "can02", "can03", "can04", "can05", 
-            "glass01", "glass02", "glass03", "glass04", "glass05", "glass06",
-            "paper01", "paper02", "paper03", "paper04",
-            "pet01", "pet02",
-            "plastic",
-            "styrofoam01", "styrofoam02", "styrofoam03",
-            "vinyl"]
-dic = {"can01":0, "can02":1, "can03":3, "can04":4, "can05":5, 
-            "glass01":6, "glass02":7, "glass03":8, "glass04":9, "glass05":10, "glass06":11,
-            "paper01":12, "paper02":13, "paper03":14, "paper04":15,
-            "pet01":16, "pet02":17,
-            "plastic":18,
-            "styrofoam01":19, "styrofoam02":20, "styrofoam03":21,
-            "vinyl":22}
+# image_datas = glob('D:\\code\\data\\final/*/*/*.jpg')
+# class_name = ["can01", "can02", "can03", "can04", "can05", 
+#             "glass01", "glass02", "glass03", "glass04", "glass05", "glass06",
+#             "paper01", "paper02", "paper03", "paper04",
+#             "pet01", "pet02",
+#             "plastic",
+#             "styrofoam01", "styrofoam02", "styrofoam03",
+#             "vinyl"]
+# dic = {"can01":0, "can02":1, "can03":3, "can04":4, "can05":5, 
+#             "glass01":6, "glass02":7, "glass03":8, "glass04":9, "glass05":10, "glass06":11,
+#             "paper01":12, "paper02":13, "paper03":14, "paper04":15,
+#             "pet01":16, "pet02":17,
+#             "plastic":18,
+#             "styrofoam01":19, "styrofoam02":20, "styrofoam03":21,
+#             "vinyl":22}
+image_datas = glob('D:\\code\\data\\final_2/*/*/*.jpg')
+class_name = ["can01", "glass01", "paper01", "pet01", "plastic", "styrofoam01", "vinyl"]
+dic = {"can01":0, "glass01":1, "paper01":2, "pet01":3, "plastic":4, "styrofoam01":5, "vinyl":6}
 
 X = []
 Y = []
@@ -79,7 +82,7 @@ print(test_images.shape, test_labels.shape)
 learning_rate = 0.001
 N_EPOCHS = 100
 N_BATCH = 4
-N_CLASS = 7
+N_CLASS = 23
 
 ## dataset 구성
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=15754).batch(N_BATCH).repeat()
@@ -115,7 +118,7 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).ba
 # print("final_model_acc : ", test_acc4)
 
 
-model5 = tf.keras.models.load_model('D:\\code\\model\\Xception.h5')
+model5 = tf.keras.models.load_model('D:\\code\\model\\Xception_final.h5')
 
 test_loss5 ,test_acc5 = model5.evaluate(test_dataset)
 

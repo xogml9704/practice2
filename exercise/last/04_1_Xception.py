@@ -66,7 +66,7 @@ print(test_images.shape, test_labels.shape)
 
 learning_rate = 0.0001
 N_EPOCHS = 1000
-N_BATCH = 4
+N_BATCH = 16
 N_CLASS = 7
 
 ## dataset 구성
@@ -100,4 +100,4 @@ early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patien
 history = model.fit(train_dataset, epochs=N_EPOCHS, steps_per_epoch=steps_per_epoch, validation_data=test_dataset, validation_steps=validation_steps, callbacks=[early_stopping])
 model.evaluate(test_dataset)
 
-model.save('D:\\code\\model\\Xception_final.h5')
+model.save('D:\\code\\model\\Xception_final2.h5')
