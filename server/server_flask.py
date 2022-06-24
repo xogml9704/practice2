@@ -1,9 +1,11 @@
-from flask import Flask
-app = Flask(__name__)
+from flask import Blueprint, request
+from werkzeug.utils import secure_filename
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+bp = Blueprint('image', __name__, url_prefix='/image')
 
-if __name__ == '__main__':
-    app.run(host='192.168.0.96', port=5500)
+# HTTP POST방식으로 전송된 이미지를 저장
+@bp.route('/', methods=['POST'])
+def save_image():
+    f = request.files['file']
+    f.save('./save_image/' + secure_filename(f.filename))
+    return 'done!'
