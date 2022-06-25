@@ -27,7 +27,7 @@ Y = np.array(Y)
 
 
 train_images, test_images, train_labels, test_labels = train_test_split(
-    X, Y,test_size=0.1, shuffle=True, random_state=44)
+    X, Y,test_size=0.2, shuffle=True, random_state=44)
 
 train_labels = train_labels[..., tf.newaxis]
 test_labels = test_labels[..., tf.newaxis]
