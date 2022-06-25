@@ -1,23 +1,21 @@
 from sklearn.model_selection import train_test_split
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 import tensorflow as tf
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from glob import glob
 from PIL import Image
-from tflite_model_maker import image_classifier
+# from tflite_model_maker import image_classifier
 from tqdm import tqdm
 
-image_datas = glob('D:\\code\\data\\final_2/*/*/*.jpg')
-class_name = ["can01", "glass01", "paper01", "pet01", "plastic", "styrofoam01", "vinyl"]
-dic = {"can01":0, "glass01":1, "paper01":2, "pet01":3, "plastic":4, "styrofoam01":5, "vinyl":6}
+image_datas = glob('D:\\code\\data\\dataset/*/*/*.jpg')
+class_name = ["can", "glass", "paper", "pet", "plastic", "styrofoam", "vinyl"]
+dic = {"can":0, "glass":1, "paper":2, "pet":3, "plastic":4, "styrofoam":5, "vinyl":6}
 
 X = []
 Y = []
 for imagename in tqdm(image_datas):
     image = Image.open(imagename)
-    image = image.resize((71, 71))
+    # image = image.resize((71, 71))
     image = np.array(image)
     X.append(image)
     label = imagename.split('\\')[4]
@@ -57,6 +55,8 @@ test_labels = tf.keras.utils.to_categorical(test_labels)
 
 print(train_images.shape, train_labels.shape)
 print(test_images.shape, test_labels.shape)
+
+N_BATCH = 2
 
 ## dataset 구성
 train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=50000).batch(N_BATCH).repeat()
