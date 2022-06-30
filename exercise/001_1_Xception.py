@@ -77,7 +77,7 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).ba
 Xception = tf.keras.applications.Xception(
     include_top=False,
     weights=None,
-    input_shape=(128, 128, 3),
+    input_shape=(64, 64, 3),
     pooling=max
 )
 
